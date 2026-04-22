@@ -1,113 +1,136 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native';
-import { useState } from 'react';
-
-/* 
-  Este es un proyecto de prueba para aprender a usar React Native.
-  EL TEMA DEL PROYECTO SERA UNA APLICACION DE CONTADOR DE VIDAS PARA 2 A 5 JUGADORES PARA JUEGOS DE MESA
-*/
+import { Text, View, TouchableOpacity, Animated } from 'react-native';
+import { useState, useRef } from 'react';
+import styles from './EstiloP2';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
-    const [vidas, setVidas] = useState(30);
-    const [vidas2, setVidas2] = useState(30);
-  
+  const [vidas, setVidas] = useState(30);
+  const [vidas2, setVidas2] = useState(30);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const menuAnim = useRef(new Animated.Value(300)).current;
+
+  // Un ref por jugador
+  const timeoutRef1 = useRef(null);
+  const intervalRef1 = useRef(null);
+  const timeoutRef2 = useRef(null);
+  const intervalRef2 = useRef(null);
+
+  const startHold = (action, timeoutRef, intervalRef) => {
+    action(); // ejecuta una vez inmediato
+    timeoutRef.current = setTimeout(() => {
+      intervalRef.current = setInterval(action, 150);
+    }, 400);
+  };
+
+  const stopHold = (timeoutRef, intervalRef) => {
+    clearTimeout(timeoutRef.current);
+    clearInterval(intervalRef.current);
+    timeoutRef.current = null;
+    intervalRef.current = null;
+  };
+
+  const toggleMenu = () => {
+    if (menuVisible) {
+      Animated.timing(menuAnim, {
+        toValue: 300,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => setMenuVisible(false));
+    } else {
+      setMenuVisible(true);
+      Animated.timing(menuAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       {/* Jugador 1 */}
       <View style={styles.box}>
-        <View>
-          <TouchableOpacity style={styles.buttonLeft} title="-" onPress={() => setVidas(vidas - 1)}>
-              <Text style={styles.symbol}>−</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.buttonLeft}
+          onPressIn={() => startHold(() => setVidas(v => v - 1), timeoutRef1, intervalRef1)}
+          onPressOut={() => stopHold(timeoutRef1, intervalRef1)}
+        >
+          <Text style={styles.symbol}>−</Text>
+        </TouchableOpacity>
+
         <Text style={styles.txt}>{vidas}</Text>
-        <View>
-          <TouchableOpacity style={styles.buttonRight} title="+" onPress={() => setVidas(vidas + 1)}>
-              <Text style={styles.symbol}>+</Text>
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity
+          style={styles.buttonRight}
+          onPressIn={() => startHold(() => setVidas(v => v + 1), timeoutRef2, intervalRef2)}
+          onPressOut={() => stopHold(timeoutRef2, intervalRef2)}
+        >
+          <Text style={styles.symbol}>+</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* Botón toggle del menú */}
+      <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+        <Text style={styles.menuButtonText}>M8</Text>
+      </TouchableOpacity>
 
       {/* Jugador 2 */}
       <View style={styles.box2}>
-        <View>
-          <TouchableOpacity style={styles.buttonLeft} title="-" onPress={() => setVidas2(vidas2 - 1)}>
-              <Text style={styles.symbol}>−</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.buttonLeft}
+          onPressIn={() => startHold(() => setVidas2(v => v - 1), timeoutRef2, intervalRef2)}
+          onPressOut={() => stopHold(timeoutRef2, intervalRef2)}
+        >
+          <Text style={styles.symbol}>−</Text>
+        </TouchableOpacity>
         <Text style={styles.txt}>{vidas2}</Text>
-        <View>
-          <TouchableOpacity style={styles.buttonRight} title="+" onPress={() => setVidas2(vidas2 + 1)}>
-              <Text style={styles.symbol}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.buttonRight}
+          onPressIn={() => startHold(() => setVidas2(v => v + 1), timeoutRef2, intervalRef2)}
+          onPressOut={() => stopHold(timeoutRef2, intervalRef2)}
+        >
+          <Text style={styles.symbol}>+</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* Overlay + menú lateral */}
+      {menuVisible && (
+        <>
+          {/* Capa oscura detrás — al tocar cierra el menú */}
+          <TouchableOpacity
+            style={styles.overlay}
+            onPress={toggleMenu}
+            activeOpacity={1}
+          />
+
+          <Animated.View style={[styles.menuPanel, { transform: [{ translateX: menuAnim }] }]}>
+
+            <TouchableOpacity style={styles.closeButton} onPress={toggleMenu}>
+              <Text style={styles.closeButtonText}>✕</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.menuTitle}>⚙️ Opciones</Text>
+
+            <TouchableOpacity style={styles.menuItem} onPress={() => { setVidas(30); setVidas2(30); }}>
+              <Text style={styles.menuItemText}>🔄 Resetear (30)</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem} onPress={() => { setVidas(20); setVidas2(20); }}>
+              <Text style={styles.menuItemText}>❤️ Vidas iniciales: 20</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem} onPress={() => { setVidas(40); setVidas2(40); }}>
+              <Text style={styles.menuItemText}>❤️ Vidas iniciales: 40</Text>
+            </TouchableOpacity>
+
+          </Animated.View>
+        </>
+      )}
+
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 40,
-    backgroundColor: '#000000',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    transform: [{ rotate: '180deg' }],
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '98%',
-    height: '49%',
-    margin: 5,
-    padding: 20,
-    backgroundColor: '#3b6ac0',
-    borderRadius: 8,
-    justifyContent: 'center',
-  },
-    box2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '98%',
-    height: '49%',
-    margin: 5,
-    padding: 20,
-    backgroundColor: '#a04242',
-    borderRadius: 8,
-    justifyContent: 'center',
-  },
-  buttonLeft: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    marginRight: 5,
-    paddingTop: 150,
-    paddingBottom: 150,
-    paddingLeft: 30,
-    paddingRight: 70,
-  },
-  buttonRight: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 5,
-    paddingTop: 150,
-    paddingBottom: 150,
-    paddingLeft: 70,
-    paddingRight: 30,
-  },
-  txt: {     
-    textAlign: 'center',
-    fontSize: 82,
-    fontStyle: 'bold',
-    color: '#ffffff',
-  },
-  symbol: {
-    fontSize: 50,
-    color: '#ffffff',
-    fontStyle: 'bold',
-  },
-});

@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch', 
     paddingLeft: 30,
-    backgroundColor: 'rgba(255,255,255,0.1)', // ligero fondo para debugear el area del botón
   },
   txt: {
     position: 'absolute',
@@ -117,6 +116,25 @@ const styles = StyleSheet.create({
   menuItemText: {
     color: '#ffffff',
     fontSize: 15,
+  },
+    subMenu: {
+    flexDirection: 'row',      // opciones en fila horizontal
+    flexWrap: 'wrap',
+    gap: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginBottom: 8,
+  },
+  subMenuItem: {
+    backgroundColor: '#555555',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  subMenuText: {
+    color: '#ffffff',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });
 

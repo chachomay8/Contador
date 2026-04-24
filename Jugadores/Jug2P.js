@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import { useState, useRef } from 'react';
-import styles from './EstiloP2';
+import styles from '../Estilos/EstiloP2';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Jug2p({ navigation }) {  // ← cambia App por Jug2p y agrega navigation
@@ -137,7 +137,10 @@ export default function Jug2p({ navigation }) {  // ← cambia App por Jug2p y a
                 {[2, 3, 4, 5].map(num => (
                   <TouchableOpacity key={num} style={styles.subMenuItem}
                     onPress={() => {
+                      // 2 ES EL ACTUAL
+                      if (num === 3) navigation.navigate('Jug3P');  // ← navega a 3 jugadores
                       if (num === 4) navigation.navigate('Jug4P');  // ← navega a 4 jugadores
+                      if (num === 5) navigation.navigate('Jug5P');  // ← navega a 5 jugadores
                     }}
                   >
                     <Text style={styles.subMenuText}>{num}</Text>

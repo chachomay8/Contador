@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import { useState, useRef } from 'react';
-import styles from './EstiloP4';
+import styles from '../Estilos/EstiloP4';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const COLORES = ['#3b6ac0', '#a04242', '#2e7d32', '#6a1e9a'];
 
 export default function Jug4p({ navigation }) {
-  const [vidas, setVidas] = useState([30, 30, 30, 30]);
+  const [vidas, setVidas] = useState([40, 40, 40, 40]);
   const [menuVisible, setMenuVisible] = useState(false);
   const [seccionAbierta, setSeccionAbierta] = useState(null);
 
@@ -148,10 +148,12 @@ const renderJugador = (i, esIzquierda) => (
                 </TouchableOpacity>
             {seccionAbierta === 'jugadores' && (
               <View style={styles.subMenu}>
-            {[1, 2, 3, 4].map(num => (
+            {[2, 3, 4, 5].map(num => (
             <TouchableOpacity key={`jugador-${num}`} style={styles.subMenuItem}
                 onPress={() => {
                 if (num === 2) navigation.navigate('Jug2P');
+                if (num === 3) navigation.navigate('Jug3P');
+                // 4 ES EL ACTUAL
                 }}
             >
                 <Text style={styles.subMenuText}>{num}</Text>

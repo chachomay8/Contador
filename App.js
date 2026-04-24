@@ -1,7 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Jug2p from './Jug2P';
-import Jug4p from './Jug4P';
+import Jug2p from './Jugadores/Jug2P';
+import Jug3p from './Jugadores/Jug3P';
+import Jug4p from './Jugadores/Jug4P';
+import Jug5p from './Jugadores/Jug5P';
 
 const Stack = createStackNavigator();
 
@@ -13,8 +15,10 @@ export default function App() {
         screenOptions={{ headerShown: false }}  // ← oculta el header de navegación
       >
         <Stack.Screen name="Jug2P" component={Jug2p} />
+        <Stack.Screen name="Jug3P" component={Jug3p} />
         <Stack.Screen name="Jug4P" component={Jug4p} />
-      </Stack.Navigator>
+        <Stack.Screen name="Jug5P" component={Jug5p} />
+        </Stack.Navigator>
     </NavigationContainer>
   );
 }

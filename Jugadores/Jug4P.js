@@ -61,36 +61,39 @@ const stopHold = (i) => {
   };
 
  // Renderiza un jugador con su rotación
-const renderJugador = (i, esIzquierda) => (
-  <View key={i} style={[
-    esIzquierda ? styles.playerBoxL : styles.playerBoxR,
-    { backgroundColor: COLORES[i] }
-  ]}>
-    <TouchableOpacity
-      style={styles.buttonTop}
-      onPressIn={() => startHold(() => cambiarVida(i, esIzquierda ? 1 : -1), i)}
-      onPressOut={() => stopHold(i)}
-    >
-      <Text style={esIzquierda ? styles.symbol90 : styles.symbol270}>
-        {esIzquierda ? '+' : '−'}
-      </Text>
-    </TouchableOpacity>
+  const renderJugador = (i, esIzquierda) => (
+    <View key={i} style={[
+      esIzquierda ? styles.playerBoxL : styles.playerBoxR,
+      { backgroundColor: COLORES[i] }
+    ]}>
 
-    <Text style={esIzquierda ? styles.txt90 : styles.txt270}>
-      {vidas[i]}
-    </Text>
-
-    <TouchableOpacity
-      style={styles.buttonBottom}
-      onPressIn={() => startHold(() => cambiarVida(i, esIzquierda ? -1 : 1), i)}
-      onPressOut={() => stopHold(i)}
-    >
-      <Text style={esIzquierda ? styles.symbol90 : styles.symbol270}>
-        {esIzquierda ? '−' : '+'}
+      {/* Número va primero — queda debajo de los botones para que carge correctamente los imputs*/}
+      <Text style={esIzquierda ? styles.txt90 : styles.txt270}>
+        {vidas[i]}
       </Text>
-    </TouchableOpacity>
-  </View>
-);
+
+      <TouchableOpacity
+        style={styles.buttonTop}
+        onPressIn={() => startHold(() => cambiarVida(i, esIzquierda ? 1 : -1), i)}
+        onPressOut={() => stopHold(i)}
+      >
+        <Text style={esIzquierda ? styles.symbol90 : styles.symbol270}>
+          {esIzquierda ? '+' : '−'}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonBottom}
+        onPressIn={() => startHold(() => cambiarVida(i, esIzquierda ? -1 : 1), i)}
+        onPressOut={() => stopHold(i)}
+      >
+        <Text style={esIzquierda ? styles.symbol90 : styles.symbol270}>
+          {esIzquierda ? '−' : '+'}
+        </Text>
+      </TouchableOpacity>
+
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -154,6 +157,7 @@ const renderJugador = (i, esIzquierda) => (
                 if (num === 2) navigation.navigate('Jug2P');
                 if (num === 3) navigation.navigate('Jug3P');
                 // 4 ES EL ACTUAL
+                if (num === 5) navigation.navigate('Jug5P');
                 }}
             >
                 <Text style={styles.subMenuText}>{num}</Text>

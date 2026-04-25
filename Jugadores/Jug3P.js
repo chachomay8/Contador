@@ -175,6 +175,7 @@ export default function Jug3p({ navigation }) {
                       if (num === 2) navigation.navigate('Jug2P');
                       // 3 ES EL ACTUAL
                       if (num === 4) navigation.navigate('Jug4P');
+                      if (num === 5) navigation.navigate('Jug5P');
                     }}
                   >
                     <Text style={styles.subMenuText}>{num}</Text>

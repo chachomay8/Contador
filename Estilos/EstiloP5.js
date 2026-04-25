@@ -11,18 +11,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-
+  //jugadores laterales — botones arriba y abajo, mira hacia el centro
   playerBoxL: {
     flex: 1,
     flexDirection: 'column',
-  },
+    },
   playerBoxR: {
     flex: 1,
     flexDirection: 'column',
   },
+  // jugador de abajo — horizontal ancho completo
   playerBoxBottom: {
     flexDirection: 'row',
-    flex: 1,
+    flex: .65,
     width: '100%',
     alignItems: 'center',
   },
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
   },
-
+  //vidas del jugador de abajo sin rotar
   txt: {
     position: 'absolute',
     left: 0,
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
   },
+  //vidas de jugadores laterales rotados para que queden verticales y mirando al centro
   txt90: {
     position: 'absolute',
     left: 0,
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     zIndex: 10,
     alignSelf: 'center',
+    marginVertical: 8,
   },
   menuButtonText: {
     color: '#ffffff',

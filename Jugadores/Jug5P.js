@@ -4,10 +4,10 @@ import { useState, useRef } from 'react';
 import styles from '../Estilos/EstiloP5';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const COLORES = ['#3b6ac0', '#a04242', '#2e7d32', '#6a1e9a', '#b5600f'];
+const COLORES = ['#3b6ac0', '#a04242', '#2e7d32', '#6a1e9a', '#b5a40f'];
 
 export default function Jug5p({ navigation }) {
-  const [vidas, setVidas] = useState([30, 30, 30, 30, 30]);
+  const [vidas, setVidas] = useState([40, 40, 40, 40, 40]);
   const [menuVisible, setMenuVisible] = useState(false);
   const [seccionAbierta, setSeccionAbierta] = useState(null);
 
@@ -61,6 +61,10 @@ export default function Jug5p({ navigation }) {
       esIzquierda ? styles.playerBoxL : styles.playerBoxR,
       { backgroundColor: COLORES[i] }
     ]}>
+      <Text style={esIzquierda ? styles.txt90 : styles.txt270}>
+        {vidas[i]}
+      </Text>
+
       <TouchableOpacity
         style={styles.buttonTop}
         onPressIn={() => startHold(() => cambiarVida(i, esIzquierda ? 1 : -1), i)}
@@ -70,10 +74,6 @@ export default function Jug5p({ navigation }) {
           {esIzquierda ? '+' : '−'}
         </Text>
       </TouchableOpacity>
-
-      <Text style={esIzquierda ? styles.txt90 : styles.txt270}>
-        {vidas[i]}
-      </Text>
 
       <TouchableOpacity
         style={styles.buttonBottom}
@@ -172,6 +172,7 @@ export default function Jug5p({ navigation }) {
                       if (num === 2) navigation.navigate('Jug2P');
                       if (num === 3) navigation.navigate('Jug3P');
                       if (num === 4) navigation.navigate('Jug4P');
+                      // 5 ES EL ACTUAL
                     }}
                   >
                     <Text style={styles.subMenuText}>{num}</Text>

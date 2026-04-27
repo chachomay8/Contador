@@ -172,10 +172,10 @@ export default function Jug3p({ navigation }) {
                 {[2, 3, 4, 5].map(num => (
                   <TouchableOpacity key={`jugador-${num}`} style={styles.subMenuItem}
                     onPress={() => {
-                      if (num === 2) navigation.navigate('Jug2P');
+                      if (num === 2) navigation.replace('Jug2P');
                       // 3 ES EL ACTUAL
-                      if (num === 4) navigation.navigate('Jug4P');
-                      if (num === 5) navigation.navigate('Jug5P');
+                      if (num === 4) navigation.replace('Jug4P');
+                      if (num === 5) navigation.replace('Jug5P');
                     }}
                   >
                     <Text style={styles.subMenuText}>{num}</Text>
